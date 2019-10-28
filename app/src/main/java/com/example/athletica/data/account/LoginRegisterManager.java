@@ -30,19 +30,36 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * This class implements the LoginRegisterManager control that
+ * manages the registering of an account and logging in to an account.
+ *
+ * @author
+ * @version 1.0
+ * @since
+ */
 public class LoginRegisterManager {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private Context context;
     private ProgressDialog progressDialog;
+
     public static User loggedUser;
 
+    /**
+     * Instantiates a new Login register manager.
+     */
     public LoginRegisterManager() {
         this.firebaseDatabase = FirebaseDatabase.getInstance();
     }
 
 
+    /**
+     * Instantiates a new Login register manager.
+     *
+     * @param context the context
+     */
     public LoginRegisterManager(Context context) {
         this.context = context;
         firebaseAuth = FirebaseAuth.getInstance();
@@ -51,6 +68,13 @@ public class LoginRegisterManager {
     }
 
 
+    /**
+     * Registers a new user to the database
+     *
+     * @param email           the email
+     * @param password        the password
+     * @param confirmPassword the confirm password
+     */
     public void register(String email, final String password, final String confirmPassword) {
         if (password.equals(confirmPassword)) {
             progressDialog.setMessage("Registering account...");
@@ -79,6 +103,12 @@ public class LoginRegisterManager {
     }
 
 
+    /**
+     * Logs an existing user in.
+     *
+     * @param email    the email
+     * @param password the password
+     */
     public void login(String email, String password) {
         progressDialog.setMessage("Logging in...");
         progressDialog.show();
@@ -103,6 +133,9 @@ public class LoginRegisterManager {
     }
 
 
+    /**
+     * Logs the user out.
+     */
     public void logOut() {
         FirebaseAuth.getInstance().signOut();
         loggedUser = null;
@@ -112,6 +145,11 @@ public class LoginRegisterManager {
     }
 
 
+    /**
+     * Returns true if the user is currently logged in to the application.
+     *
+     * @return the boolean
+     */
     public boolean isLoggedIn() {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser == null) {
@@ -124,6 +162,13 @@ public class LoginRegisterManager {
     }
 
 
+    /**
+     * Change the password of the user.
+     *
+     * @param password        the password
+     * @param confirmPassword the confirm password
+     * @param oldPassword     the old password
+     */
     public void changePassword(final String password, final String confirmPassword, final String oldPassword) {
         if (password.equals(confirmPassword)) {
             final FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -162,6 +207,17 @@ public class LoginRegisterManager {
         }
     }
 
+    /**
+     * Updates the user's profile into the database.
+     *
+     * @param userId      User's ID
+     * @param name        User's name
+     * @param birthdate   User's date of birth
+     * @param sex         User's gender
+     * @param description Short description of the user
+     * @param sports      List of user's sports preferences
+     * @param follows     List of other users that user is following
+     */
     public void saveUserProfile(String userId, String name, String birthdate, String sex, String description, ArrayList<String> sports, ArrayList<String> follows) {
 
         if (sports.size() < 1) {
@@ -184,6 +240,11 @@ public class LoginRegisterManager {
     }
 
 
+    /**
+     * @param email    the email
+     * @param password the password
+     * @return the boolean
+     */
     public boolean validateLoginRegisterInput(String email, String password) {
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(context, "E-mail cannot be empty!", Toast.LENGTH_SHORT).show();
@@ -209,6 +270,14 @@ public class LoginRegisterManager {
     }
 
 
+    /**
+     * Validate profile details boolean.
+     *
+     * @param current      the current
+     * @param birthdayDate the birthday date
+     * @param name         the name
+     * @return the boolean
+     */
     public boolean validateProfileDetails(Date current, Date birthdayDate, String name) {
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(context, "Name is required!", Toast.LENGTH_SHORT).show();
@@ -228,6 +297,9 @@ public class LoginRegisterManager {
     }
 
 
+    /**
+     * Sets logged user.
+     */
     public static void setLoggedUser() {
         final DataManager dataManager = new DataManager();
         dataManager.getUser(new DataManager.DataStatus() {

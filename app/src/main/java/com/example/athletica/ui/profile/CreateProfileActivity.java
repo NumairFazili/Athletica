@@ -31,6 +31,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * This class implements the CreateProfileActivity boundary
+ * which allow users to create a new profile after registering for an account.
+ */
 public class CreateProfileActivity extends AppCompatActivity {
 
     public static String databaseBirthdayFormat = "yyyy-MM-dd";

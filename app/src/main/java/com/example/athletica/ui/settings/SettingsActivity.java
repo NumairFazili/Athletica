@@ -9,6 +9,10 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.example.athletica.R;
 import com.example.athletica.data.account.LoginRegisterManager;
 
+/**
+ * This class implements the SettingsActivity boundary
+ * which displays the settings available for the application.
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     @Override

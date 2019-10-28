@@ -14,6 +14,10 @@ import com.example.athletica.data.event.EventManager;
 import com.example.athletica.data.user.DataManager;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+/**
+ * This class implements the ViewEventActivity boundary
+ * which allow users to view details of an event.
+ */
 public class ViewEventActivity extends AppCompatActivity {
 
     private TextView tvEventName, tvEventLocation, tvEventStartDate, tvEventEndDate, tvEventCapacity, tvEventPrice, tvEventOrganiser;

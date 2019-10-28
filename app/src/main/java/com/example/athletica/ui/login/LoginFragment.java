@@ -15,6 +15,10 @@ import com.example.athletica.R;
 import com.example.athletica.data.account.LoginRegisterManager;
 
 
+/**
+ * This class implements the LoginFragment boundary
+ * which allow users to log in to the application.
+ */
 public class LoginFragment extends CustomFragment implements View.OnClickListener {
 
     private TextView tvState;

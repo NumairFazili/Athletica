@@ -15,6 +15,10 @@ import com.example.athletica.ui.home.HomeActivity;
 
 import java.util.ArrayList;
 
+/**
+ * This class implements the LoginRegisterActivity boundary
+ * holds the ViewPager for the login and register UI.
+ */
 public class LoginRegisterActivity extends AppCompatActivity {
 
     private LoginRegisterManager loginRegisterManager;

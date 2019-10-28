@@ -9,6 +9,14 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 
+/**
+ * This class implements the ProfileManager control that
+ * manages the following and unfollowing of users.
+ *
+ * @author
+ * @version 1.0
+ * @since
+ */
 public class ProfileManager {
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
@@ -16,6 +24,11 @@ public class ProfileManager {
     private String displayDateFormat = "dd/MM/yyyy HH:mm";
     private SimpleDateFormat sdf = new SimpleDateFormat(displayDateFormat, Locale.getDefault());
 
+    /**
+     * Instantiates a new Profile manager.
+     *
+     * @param context the context
+     */
     public ProfileManager(Context context) {
         this.context = context;
         firebaseAuth = FirebaseAuth.getInstance();

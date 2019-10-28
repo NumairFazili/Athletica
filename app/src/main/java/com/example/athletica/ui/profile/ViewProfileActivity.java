@@ -13,6 +13,10 @@ import com.example.athletica.data.user.DataManager;
 import com.example.athletica.data.user.UserProfile;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+/**
+ * This class implements the ViewProfileActivity boundary
+ * which allow users view user's profile.
+ */
 public class ViewProfileActivity extends AppCompatActivity {
 
     TextView tvName, tvEmail, tvGender, tvBio, tvInterest, tvUpComing;
@@ -35,7 +39,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
         index = getIntent().getStringExtra("key");
 
-        if(TextUtils.isEmpty(index)){
+        if (TextUtils.isEmpty(index)) {
             index = LoginRegisterManager.loggedUser.getId();
         }
         dataManager = new DataManager();

@@ -13,6 +13,10 @@ import androidx.annotation.Nullable;
 import com.example.athletica.R;
 import com.example.athletica.data.account.LoginRegisterManager;
 
+/**
+ * This class implements the RegisterFragment boundary
+ * which allow users to register for a new account.
+ */
 public class RegisterFragment extends CustomFragment implements View.OnClickListener {
 
 

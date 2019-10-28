@@ -18,28 +18,28 @@ public class Facility {
 
     private String facilityIndex;
     private DataManager dataManager;
-    private Map<String,String> facility;
+    private Map<String, String> facility;
     Geocoder geocoder;
 
     String userid;
     Context context;
 
-    ListView listViewComments;
-    List<Comments> commentsList;
+    ListView listViewComment;
+    List<Comment> commentsList;
 
-    DatabaseReference Comments_DB_Reference;
+    DatabaseReference Comment_DB_Reference;
     DatabaseReference Ratings_DB_Ref;
 
 
-    public Facility(Context context, String facilityIndex){
-        dataManager=new DataManager();
-        this.context=context;
-        this.facilityIndex=facilityIndex;
-        this.facility=dataManager.readIndex(context,facilityIndex);
-        geocoder=new Geocoder(context,Locale.getDefault());
-        this.userid= LoginRegisterManager.loggedUser.getId();
-        this.Comments_DB_Reference= FirebaseDatabase.getInstance().getReference("facility_comments");
-        this.Ratings_DB_Ref=FirebaseDatabase.getInstance().getReference("facility_ratings");
+    public Facility(Context context, String facilityIndex) {
+        dataManager = new DataManager();
+        this.context = context;
+        this.facilityIndex = facilityIndex;
+        this.facility = dataManager.readIndex(context, facilityIndex);
+        geocoder = new Geocoder(context, Locale.getDefault());
+        this.userid = LoginRegisterManager.loggedUser.getId();
+        this.Comment_DB_Reference = FirebaseDatabase.getInstance().getReference("facility_comments");
+        this.Ratings_DB_Ref = FirebaseDatabase.getInstance().getReference("facility_ratings");
 
     }
 
@@ -52,7 +52,7 @@ public class Facility {
     }
 
     public DatabaseReference getComments_DB_Reference() {
-        return Comments_DB_Reference;
+        return Comment_DB_Reference;
     }
 
     public DatabaseReference getRatings_DB_Ref() {
@@ -67,17 +67,17 @@ public class Facility {
         return facility.get("website");
     }
 
-    public double getLat(){
+    public double getLat() {
         return Double.parseDouble(facility.get("lat"));
     }
 
-    public double getLong(){
+    public double getLong() {
         return Double.parseDouble(facility.get("long"));
     }
 
-    public String getAddress(){
-        double lat=getLat();
-        double lng=getLong();
+    public String getAddress() {
+        double lat = getLat();
+        double lng = getLong();
 
         try {
             return geocoder.getFromLocation(lat, lng, 1).get(0).getAddressLine(0);
@@ -85,14 +85,6 @@ public class Facility {
             return "Address Could not be fetched";
         }
     }
-
-
-
-
-
-
-
-
 
 
 }

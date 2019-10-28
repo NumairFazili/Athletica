@@ -17,6 +17,10 @@ import com.example.athletica.data.user.DataManager;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * This class implements the SearchResultActivity boundary
+ * which display the search results.
+ */
 public class SearchResultActivity extends AppCompatActivity implements View.OnClickListener {
 
 
@@ -48,7 +52,7 @@ public class SearchResultActivity extends AppCompatActivity implements View.OnCl
         viewAllText_facilities.setOnClickListener(this);
         TextView viewAllText_events = findViewById(R.id.button2);
         viewAllText_events.setOnClickListener(this);
-        TextView viewAllText_Users=findViewById(R.id.button3);
+        TextView viewAllText_Users = findViewById(R.id.button3);
         viewAllText_Users.setOnClickListener(this);
 
         dataManager = new DataManager();
@@ -69,7 +73,7 @@ public class SearchResultActivity extends AppCompatActivity implements View.OnCl
 
     private void getFacilities() {
         facilityMap = (ArrayList<Map>) dataManager.readDataAll(this, str);
-        Log.v("running",facilityMap.toString());
+        Log.v("running", facilityMap.toString());
         init_1(facilityMap);
     }
 
@@ -145,7 +149,7 @@ public class SearchResultActivity extends AppCompatActivity implements View.OnCl
         RecyclerView recyclerView;
 
 
-        Log.v("search recycler ","recycler");
+        Log.v("search recycler ", "recycler");
 
 
         if (id == 2)

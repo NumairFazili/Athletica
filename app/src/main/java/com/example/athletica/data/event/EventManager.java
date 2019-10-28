@@ -16,6 +16,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * This class implements the EventManager control that
+ * manages the creating a new event and joining of event.
+ *
+ * @author
+ * @version 1.0
+ * @since
+ */
 public class EventManager {
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
@@ -23,12 +31,30 @@ public class EventManager {
     private String displayDateFormat = "dd/MM/yyyy HH:mm";
     private SimpleDateFormat sdf = new SimpleDateFormat(displayDateFormat, Locale.getDefault());
 
+    /**
+     * Instantiates a new Event manager.
+     *
+     * @param context the context
+     */
     public EventManager(Context context) {
         this.context = context;
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
+    /**
+     * Validate details boolean.
+     *
+     * @param name            the name
+     * @param discipline      the discipline
+     * @param description     the description
+     * @param location        the location
+     * @param maxParticipants the max participants
+     * @param price           the price
+     * @param dateStart       the date start
+     * @param dateEnd         the date end
+     * @return the boolean
+     */
     public boolean validateDetails(String name, String discipline, String description, String location, int maxParticipants, double price, String dateStart, String dateEnd) {
         Date currentDate = new Date();
         Date startDate = null;
@@ -97,6 +123,19 @@ public class EventManager {
     }
 
 
+    /**
+     * Creates a new event into the database.
+     *
+     * @param name            the name
+     * @param discipline      the discipline
+     * @param description     the description
+     * @param location        the location
+     * @param maxParticipants the max participants
+     * @param price           the price
+     * @param startDate       the start date
+     * @param endDate         the end date
+     * @return the boolean
+     */
     // Creates a new event and save into the dartabase
     public boolean saveEvent(String name, String discipline, String description, String location, int maxParticipants, double price, String startDate, String endDate) {
         // Retrieve the ket for event_info
@@ -112,6 +151,12 @@ public class EventManager {
         return true;
     }
 
+    /**
+     * Add a user into the event returns true if user is successfully added as a participant of the event.
+     *
+     * @param event event to join
+     * @param user  the user joining the event
+     */
     public boolean joinEvent(Event event, User user) {
         if (event.canBeJoined() && user.canJoin(event.getId())) {
             event.addNewParticipant();

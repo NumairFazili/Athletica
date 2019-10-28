@@ -31,6 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class implements the HomeActivity boundary
+ * which allow users search for events, facilities and users and displays recommended events.
+ */
 public class HomeActivity extends AppCompatActivity {
 
 
@@ -61,8 +65,6 @@ public class HomeActivity extends AppCompatActivity {
         etSearch = findViewById(R.id.editTextSearch);
 
 
-
-
         dataManager = new DataManager();
 
         getEvents(); //for displaying events on the main page
@@ -87,8 +89,6 @@ public class HomeActivity extends AppCompatActivity {
                 drawer.openDrawer(GravityCompat.END);
             }
         });
-
-
 
 
     }
@@ -176,42 +176,40 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void getEvents(){
+    private void getEvents() {
         dataManager.getEventKeys(new DataManager.DataStatus() {
             @Override
             public void dataLoaded(Object object) {
-                eventMap = ((ArrayList<Map>)object);
+                eventMap = ((ArrayList<Map>) object);
                 EventParser(eventMap);
             }
-        }, 4,"");
+        }, 4, "");
 
     }
 
-    private void EventParser(ArrayList<Map> sample){
-        for(Map<String, String> map:sample){
+    private void EventParser(ArrayList<Map> sample) {
+        for (Map<String, String> map : sample) {
             String str1 = map.get("key");
             String str2 = map.get("name");
             eventIds.add(str1);
             eventsName.add(str2);
         }
-        initRecyclerView(1,eventsName,eventIds);
+        initRecyclerView(1, eventsName, eventIds);
     }
 
-    private void initRecyclerView(int id,ArrayList<String> names,ArrayList<String> index ){
+    private void initRecyclerView(int id, ArrayList<String> names, ArrayList<String> index) {
 
-        LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
-        RecyclerView recyclerView=findViewById(R.id.rv_home);
+        RecyclerView recyclerView = findViewById(R.id.rv_home);
 
         recyclerView.setLayoutManager(layoutManager);
 
-        Layout_mainpage adapter = new Layout_mainpage(this,names,index,id);
+        Layout_mainpage adapter = new Layout_mainpage(this, names, index, id);
 
         recyclerView.setAdapter(adapter);
 
     }
-
-
 
 
     // Setup the recyclerView

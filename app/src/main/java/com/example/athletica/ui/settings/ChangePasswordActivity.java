@@ -14,6 +14,10 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * This class implements the ChangePasswordActivity boundary
+ * which allow users to change their password.
+ */
 public class ChangePasswordActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;

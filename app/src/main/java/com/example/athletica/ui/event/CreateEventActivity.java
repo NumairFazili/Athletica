@@ -24,6 +24,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * This class implements the CreateEventActivity boundary
+ * which allow users to create a new activity.
+ */
 public class CreateEventActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Calendar startCalendar, endCalendar;
