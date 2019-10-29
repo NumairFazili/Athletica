@@ -8,6 +8,7 @@ import com.example.athletica.ui.home.HomeActivity;
 import com.example.athletica.ui.search.DisplayAll;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 public class DisplayController {
@@ -99,5 +100,15 @@ public class DisplayController {
 
             }
         }, "");
+    }
+
+
+    public ArrayList<Facility> sortFacilityByName(ArrayList<Facility> facilities) {
+        ArrayList<Facility> sortedFacilities = new ArrayList<>();
+        Collections.copy(facilities, sortedFacilities);
+
+        sortedFacilities.sort((Facility f1, Facility f2) -> f1.getName().compareTo(f2.getName()));
+
+        return sortedFacilities;
     }
 }

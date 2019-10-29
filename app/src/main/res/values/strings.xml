@@ -17,6 +17,12 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!--    Strings related to SearchResult Activity-->
+    <string name="facility_header">Facilities</string>
+    <string name="event_header">Events</string>
+    <string name="user_header">Users</string>
+    <string name="action_view_all">View All</string>
+
     <!--    Strings related to Profile Activity-->
     <string name="bio_header">Bio</string>
     <string name="interest_header">Interest</string>

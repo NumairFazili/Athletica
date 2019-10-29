@@ -2,6 +2,8 @@ package com.example.athletica.ui.search;
 
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.athletica.R;
 import com.example.athletica.data.DisplayAll.DisplayController;
+import com.example.athletica.data.facility.Facility;
 import com.example.athletica.data.user.DataManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DisplayAll extends AppCompatActivity {
 
@@ -20,7 +24,9 @@ public class DisplayAll extends AppCompatActivity {
 
     private DataManager dataManager;
     private DisplayController displayController;
-
+    private ArrayList<Facility> facilities, sortedFacilties;
+    private ImageButton btnSort;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +37,33 @@ public class DisplayAll extends AppCompatActivity {
         state = Integer.parseInt(getIntent().getStringExtra("state"));
         dataManager = new DataManager();
         displayController = new DisplayController(this, state);
-
+        btnSort = findViewById(R.id.action_sort);
 
         if (state == 0) displayController.getFacilities(this);
         else if (state == 1) displayController.getEvents(this);
         else displayController.getUsers(this);
+
+        facilities = dataManager.readDataAll(this, "");
+        sortedFacilties= displayController.sortFacilityByName(facilities);
+
+        btnSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Collections.copy(sortedFacilties, facilities);
+                recyclerView.getAdapter().notifyDataSetChanged();
+            }
+        });
+
+
     }
 
     public void initRecyclerView(int id, ArrayList<String> names, ArrayList<String> index) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView3);
+        recyclerView = findViewById(R.id.recyclerView3);
         recyclerView.setLayoutManager(layoutManager);
         Layout_mainpage adapter = new Layout_mainpage(this, names, index, id);
         recyclerView.setAdapter(adapter);
     }
+
 
 }

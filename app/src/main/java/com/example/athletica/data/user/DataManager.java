@@ -155,8 +155,8 @@ public class DataManager {
         });
     }
 
-    public List<Facility> readDataAll(Context context, String str) {
-        List<Facility> dataList = new ArrayList<>();
+    public ArrayList<Facility> readDataAll(Context context, String str) {
+        ArrayList<Facility> dataList = new ArrayList<>();
         InputStream is = context.getResources().openRawResource(R.raw.sports);
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(is, Charset.forName("UTF-8"))

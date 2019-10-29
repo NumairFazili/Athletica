@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,12 +28,10 @@ This boundary class displays the search results corresponding to each entity (us
 public class SearchResultActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-    private String str;
+    private String query;
     private com.example.athletica.data.search.SearchManager searchManager;
-
-    private ListView rvFacility;
-    private ListView rvEvents;
-    private ListView rvUsers;
+    private ListView lvFacility, lvEvents, lvUsers;
+    private Button btnViewAllFacility, btnVidewAllEvent, btnViewAllUser;
     private Intent intent;
 
 
@@ -42,29 +40,23 @@ public class SearchResultActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
-        TextView viewAllText_facilities = findViewById(R.id.button1);
-        viewAllText_facilities.setOnClickListener(this);
-        TextView viewAllText_events = findViewById(R.id.button2);
-        viewAllText_events.setOnClickListener(this);
-        TextView viewAllText_Users = findViewById(R.id.button3);
-        viewAllText_Users.setOnClickListener(this);
+        lvFacility = findViewById(R.id.lv_facility);
+        lvEvents = findViewById(R.id.lv_event);
+        lvUsers = findViewById(R.id.lv_user);
+        btnViewAllFacility = findViewById(R.id.action_view_all_facility);
+        btnVidewAllEvent = findViewById(R.id.action_view_all_event);
+        btnViewAllUser = findViewById(R.id.action_view_all_user);
+
+        btnViewAllFacility.setOnClickListener(this);
+        btnViewAllUser.setOnClickListener(this);
+        btnVidewAllEvent.setOnClickListener(this);
+
+        // Get the search query from intent.
+        intent = getIntent();
+        query = intent.getStringExtra("query");
+        searchManager = new SearchManager(this, query);
 
 
-        rvFacility = findViewById(R.id.rvFacility);
-        rvEvents = findViewById(R.id.rvEvent);
-        rvUsers = findViewById(R.id.rvUsers);
-
-
-    }
-
-
-    public void onStart() {
-        super.onStart();
-        // Get the search query from search manager
-        Intent intent = getIntent();
-        str = intent.getStringExtra("query");
-        searchManager = new SearchManager(this, str); //running constructor for controller
-        // the following three statements display the entities;
         searchManager.getFacilities(this);
         searchManager.getEvents(this);
         searchManager.getUsers(this);
@@ -81,14 +73,14 @@ public class SearchResultActivity extends AppCompatActivity implements View.OnCl
     // this is used to initialize the  recycler view
 
 
-    public void init_ListView(ArrayList<String> names, final ArrayList<String> index, int id) {
+    public void initListView(ArrayList<String> names, final ArrayList<String> index, int id) {
         ArrayAdapter<String> arrayAdapter;
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, names);
 
 
         if (id == 0) {
-            rvFacility.setAdapter(arrayAdapter);
-            rvFacility.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            lvFacility.setAdapter(arrayAdapter);
+            lvFacility.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     intent = new Intent(SearchResultActivity.this, ViewFacilityActivity.class);
@@ -97,8 +89,8 @@ public class SearchResultActivity extends AppCompatActivity implements View.OnCl
                 }
             });
         } else if (id == 1) {
-            rvEvents.setAdapter(arrayAdapter);
-            rvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            lvEvents.setAdapter(arrayAdapter);
+            lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     intent = new Intent(SearchResultActivity.this, ViewEventActivity.class);
@@ -107,8 +99,8 @@ public class SearchResultActivity extends AppCompatActivity implements View.OnCl
                 }
             });
         } else {
-            rvUsers.setAdapter(arrayAdapter);
-            rvUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            lvUsers.setAdapter(arrayAdapter);
+            lvUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     intent = new Intent(SearchResultActivity.this, ViewProfileActivity.class);
@@ -127,25 +119,25 @@ public class SearchResultActivity extends AppCompatActivity implements View.OnCl
         Intent intent;
         switch (view.getId()) {
 
-            case R.id.button1:
+            case R.id.action_view_all_facility:
                 intent = new Intent(SearchResultActivity.this, DisplayAll.class);
                 intent.putExtra("state", "0");
                 startActivity(intent);
                 break;
 
-            case R.id.button2:
+            case R.id.action_view_all_event:
                 intent = new Intent(SearchResultActivity.this, DisplayAll.class);
                 intent.putExtra("state", "1");
                 startActivity(intent);
                 break;
 
-            case R.id.button3:
+            case R.id.action_view_all_user:
                 intent = new Intent(SearchResultActivity.this, DisplayAll.class);
                 intent.putExtra("state", "2");
                 startActivity(intent);
                 break;
-
-
+            default:
+                break;
         }
     }
 
