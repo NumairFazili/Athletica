@@ -7,7 +7,6 @@ import com.example.athletica.data.user.DataManager;
 import com.example.athletica.ui.search.SearchResultActivity;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Map;
 
 public class SearchManager {
@@ -34,7 +33,7 @@ public class SearchManager {
 
 
     public void getFacilities(final SearchResultActivity searchResultActivity) {
-        facilities = (ArrayList<Facility>) dataManager.readDataAll(context, value);
+        facilities = dataManager.readDataAll(context, value);
         for (Facility facility : facilities) {
             String str2 = facility.getName();  //
             String index = facility.getFacilityIndex();
@@ -79,8 +78,6 @@ public class SearchManager {
         }, value);
 
     }
-
-
 
 
 }

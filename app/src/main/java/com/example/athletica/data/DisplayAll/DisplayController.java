@@ -8,7 +8,7 @@ import com.example.athletica.ui.home.HomeActivity;
 import com.example.athletica.ui.search.DisplayAll;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 
 public class DisplayController {
@@ -40,7 +40,7 @@ public class DisplayController {
     }
 
     public void getFacilities(final DisplayAll displayAll) {
-        facilityMap = (ArrayList<Facility>) dataManager.readDataAll(context, "");
+        facilityMap = dataManager.readDataAll(context, "");
         for (Facility facility : facilityMap) {
             String str2 = facility.getName();  //parsing facilities and index's in separate lists
             String i = facility.getFacilityIndex();
@@ -102,13 +102,13 @@ public class DisplayController {
         }, "");
     }
 
+    public ArrayList<Facility> sortFacilityByName() {
+        ArrayList<Facility> facilities = dataManager.readDataAll(context, "");
 
-    public ArrayList<Facility> sortFacilityByName(ArrayList<Facility> facilities) {
-        ArrayList<Facility> sortedFacilities = new ArrayList<>();
-        Collections.copy(facilities, sortedFacilities);
 
-        sortedFacilities.sort((Facility f1, Facility f2) -> f1.getName().compareTo(f2.getName()));
-
-        return sortedFacilities;
+        facilities.sort(Comparator.comparing(Facility::getName));
+        return facilities;
     }
+
+
 }

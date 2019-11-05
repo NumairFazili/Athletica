@@ -77,11 +77,11 @@ public class ViewFacilityActivity extends AppCompatActivity {
         tvAddress = findViewById(R.id.facility_address);
 
 
-        submitButton = (Button) findViewById(R.id.submit_button);
-        ratingDisplayTextView = (TextView) findViewById(R.id.rating_display_text_View);
-        listViewComments = (ListView) findViewById(R.id.list_view_comment);
+        submitButton = findViewById(R.id.submit_button);
+        ratingDisplayTextView = findViewById(R.id.rating_display_text_View);
+        listViewComments = findViewById(R.id.list_view_comment);
         addcomment = findViewById(R.id.add_comment);
-        sendComment = (Button) findViewById(R.id.send);
+        sendComment = findViewById(R.id.send);
         commentsList = new ArrayList<>();
 
 

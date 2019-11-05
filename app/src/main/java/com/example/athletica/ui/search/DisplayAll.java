@@ -15,7 +15,6 @@ import com.example.athletica.data.facility.Facility;
 import com.example.athletica.data.user.DataManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class DisplayAll extends AppCompatActivity {
 
@@ -43,14 +42,24 @@ public class DisplayAll extends AppCompatActivity {
         else if (state == 1) displayController.getEvents(this);
         else displayController.getUsers(this);
 
-        facilities = dataManager.readDataAll(this, "");
-        sortedFacilties= displayController.sortFacilityByName(facilities);
+
+        sortedFacilties = displayController.sortFacilityByName();
+        ArrayList<String> sortedFFacilityNames = new ArrayList<>();
+        ArrayList<String> sortedFacilityIndex = new ArrayList<>();
+
+        for (Facility facility : sortedFacilties) {
+            sortedFacilityIndex.add(facility.getFacilityIndex());
+            sortedFFacilityNames.add(facility.getName());
+        }
+
+        if (state != 0) {
+            btnSort.setVisibility(View.GONE);
+        }
 
         btnSort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Collections.copy(sortedFacilties, facilities);
-                recyclerView.getAdapter().notifyDataSetChanged();
+                initRecyclerView(state, sortedFFacilityNames, sortedFacilityIndex);
             }
         });
 
