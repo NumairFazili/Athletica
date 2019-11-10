@@ -16,7 +16,10 @@ import com.example.athletica.data.user.DataManager;
 import com.example.athletica.data.user.UserProfile;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 public class ViewProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -76,7 +79,7 @@ public class ViewProfileActivity extends AppCompatActivity implements View.OnCli
             //btnEdit.setText("Follow");
         }
         tvName.setText(profile.getName());
-        tvGenderAge.setText(profile.getGender());
+        tvGenderAge.setText(profile.getGender() + ", " + calculateAge(profile.getBirthdate()));
         tvBio.setText(profile.getDescription());
         tvFollowers.setText(profile.getFollowers());
         if (tvFollowers.getText().equals(""))
@@ -87,6 +90,27 @@ public class ViewProfileActivity extends AppCompatActivity implements View.OnCli
             allInterests += nextInterest + "\n";
         }
         tvInterests.setText(allInterests);
+    }
+
+    private int calculateAge(String dob) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar birthday = Calendar.getInstance();
+        try {
+            birthday.setTime(simpleDateFormat.parse(dob));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        Calendar now = Calendar.getInstance();
+        int age = now.get(Calendar.YEAR) - birthday.get(Calendar.YEAR);
+        if (birthday.get(Calendar.MONTH) > now.get(Calendar.MONTH))
+            age--;
+        else if (birthday.get(Calendar.MONTH) == now.get(Calendar.MONTH))
+        {
+            if (birthday.get(Calendar.DAY_OF_MONTH) > now.get(Calendar.DAY_OF_MONTH))
+                age--;
+        }
+        return age;
     }
 
     private void setFollowButton(final String selectedUId) {
