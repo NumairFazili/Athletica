@@ -2,14 +2,29 @@ package com.example.athletica.data.DisplayAll;
 
 import android.content.Context;
 import android.os.Build;
+import android.text.TextUtils;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.athletica.R;
+import com.example.athletica.data.account.LoginRegisterManager;
 import com.example.athletica.data.facility.Facility;
+import com.example.athletica.data.profile.ProfileManager;
 import com.example.athletica.data.search.Filter;
 import com.example.athletica.data.user.DataManager;
+import com.example.athletica.data.user.User;
+import com.example.athletica.data.user.UserProfile;
 import com.example.athletica.ui.home.HomeActivity;
+import com.example.athletica.ui.profile.ViewProfileActivity;
 import com.example.athletica.ui.search.DisplayAll;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import android.app.Activity;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,7 +35,8 @@ public class DisplayController {
     Context context;
     DataManager dataManager;
     Filter filter;
-    private String value;
+    public static User user;
+    ProfileManager profileManager;
 
 
     private ArrayList<String> facilities = new ArrayList<>();
@@ -45,6 +61,7 @@ public class DisplayController {
         this.context = context;
         this.state = state;
         dataManager = new DataManager();
+        profileManager = new ProfileManager(context);
         filter = new Filter();
     }
 
@@ -76,6 +93,44 @@ public class DisplayController {
 
             }
         }, "");
+    }
+
+    public void getEvents(final ViewProfileActivity viewProfileActivity, String userId) {
+        dataManager.getEventKeys(new DataManager.DataStatus() {
+            @Override
+            public void dataLoaded(Object object) {
+                eventMap = ((ArrayList<Map>) object);
+                filter.endEventCheck(eventMap);
+                filter.sortEvents(eventMap);
+                for (Map<String, String> map : eventMap) {
+                    String str1 = map.get("key");
+                    String str2 = map.get("name");
+                    setUser(userId);
+                    if (user.canJoin(str1)) {
+                        eventIds.add(str1);
+                        eventsName.add(str2);
+                    }
+                }
+                viewProfileActivity.initRecyclerView(state, eventsName, eventIds);
+            }
+        }, "");
+    }
+
+    private void setUser(String userId){
+        final DataManager dataManager = new DataManager();
+        dataManager.getUser(new DataManager.DataStatus() {
+            @Override
+            public void dataLoaded(Object object) {
+                user = (User) object;
+                user.setId(userId);
+                dataManager.getUserEvents(new DataManager.DataStatus() {
+                    @Override
+                    public void dataLoaded(Object object) {
+                        user.setEventsJoined((ArrayList<String>) object);
+                    }
+                }, user.getId());
+            }
+        }, userId);
     }
 
     public void getEvents(final HomeActivity homeActivity) {

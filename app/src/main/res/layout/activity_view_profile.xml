@@ -109,6 +109,24 @@
                 app:layout_constraintStart_toStartOf="@+id/tvFollowersLabel"
                 app:layout_constraintTop_toBottomOf="@+id/tvFollowersLabel" />
 
+            <TextView
+                android:id="@+id/tvComingUpLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Coming up"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tvFollowers"
+                app:layout_constraintTop_toBottomOf="@+id/tvFollowers" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvComingUp"
+                android:layout_width="363dp"
+                android:layout_height="312dp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="@+id/tvComingUpLabel"
+                app:layout_constraintTop_toBottomOf="@+id/tvComingUpLabel" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

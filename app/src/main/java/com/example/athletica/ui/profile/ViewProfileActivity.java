@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.athletica.R;
@@ -14,6 +17,9 @@ import com.example.athletica.data.account.LoginRegisterManager;
 import com.example.athletica.data.profile.ProfileManager;
 import com.example.athletica.data.user.DataManager;
 import com.example.athletica.data.user.UserProfile;
+import com.example.athletica.data.DisplayAll.DisplayController;
+
+import com.example.athletica.ui.search.Layout_mainpage;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.text.ParseException;
@@ -24,8 +30,7 @@ import java.text.SimpleDateFormat;
 public class ViewProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView tvName, tvGenderAge, tvBio, tvInterests, tvFollowers, tvUpComing;
-    ExtendedFloatingActionButton btnEdit;
-    //Button tvFollow;
+    ExtendedFloatingActionButton btnFollowUpdate;
 
     private DataManager dataManager;
     private ProfileManager profileManager;
@@ -33,6 +38,7 @@ public class ViewProfileActivity extends AppCompatActivity implements View.OnCli
     private String index;
     private UserProfile selectedProfile;
     private UserProfile currentProfile;
+    private DisplayController displayController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +50,7 @@ public class ViewProfileActivity extends AppCompatActivity implements View.OnCli
         tvBio = findViewById(R.id.tvBio);
         tvInterests = findViewById(R.id.tvInterests);
         tvFollowers = findViewById(R.id.tvFollowers);
-        //tvFollow = findViewById(R.id.tvFollow);
-        btnEdit = findViewById(R.id.action_edit);
+        btnFollowUpdate = findViewById(R.id.action_edit);
 
         index = getIntent().getStringExtra("key");
 
@@ -57,7 +62,18 @@ public class ViewProfileActivity extends AppCompatActivity implements View.OnCli
         profileManager = new ProfileManager(getApplicationContext());
         getDetails();
 
-        btnEdit.setOnClickListener(this);
+        displayController = new DisplayController(this, 1);
+        displayController.getEvents(this, index);
+
+        btnFollowUpdate.setOnClickListener(this);
+    }
+
+    public void initRecyclerView(int id, ArrayList<String> names, ArrayList<String> index) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView rv = findViewById(R.id.rvComingUp);
+        rv.setLayoutManager(layoutManager);
+        Layout_mainpage adapter = new Layout_mainpage(this, names, index, id);
+        rv.setAdapter(adapter);
     }
 
     private void getDetails() {
@@ -73,10 +89,9 @@ public class ViewProfileActivity extends AppCompatActivity implements View.OnCli
 
     private void populate(UserProfile profile) {
         if (!index.equals(LoginRegisterManager.loggedUser.getId())) {
-            btnEdit.setIcon(null);
-            btnEdit.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add_24px, 0, 0, 0);
+            btnFollowUpdate.setIcon(null);
+            btnFollowUpdate.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add_24px, 0, 0, 0);
             setFollowButton(profile.getId());
-            //btnEdit.setText("Follow");
         }
         tvName.setText(profile.getName());
         tvGenderAge.setText(profile.getGender() + ", " + calculateAge(profile.getBirthdate()));
@@ -122,9 +137,9 @@ public class ViewProfileActivity extends AppCompatActivity implements View.OnCli
 
                 for (String nextFollow : currentProfile.getFollows()) {
                     if (nextFollow.equals(selectedUId))
-                        btnEdit.setText("UNFOLLOW");
+                        btnFollowUpdate.setText("UNFOLLOW");
                     else
-                        btnEdit.setText("FOLLOW");
+                        btnFollowUpdate.setText("FOLLOW");
 
                 }
             }
@@ -136,7 +151,7 @@ public class ViewProfileActivity extends AppCompatActivity implements View.OnCli
         String id = selectedProfile.getId();
         String newFollowers;
 
-        if (btnEdit.getText().equals("FOLLOW")) {
+        if (btnFollowUpdate.getText().equals("FOLLOW")) {
             newFollows.add(selectedProfile.getId());
             if (selectedProfile.getFollowers() != null) {
                 newFollowers = String.valueOf(Integer.parseInt(selectedProfile.getFollowers()) + 1);
@@ -146,7 +161,7 @@ public class ViewProfileActivity extends AppCompatActivity implements View.OnCli
 
             loginRegisterManager.follow(newFollows, id, newFollowers);
             tvFollowers.setText(String.valueOf(Integer.parseInt(tvFollowers.getText().toString()) + 1));
-            btnEdit.setText("UNFOLLOW");
+            btnFollowUpdate.setText("UNFOLLOW");
         } else {
             for (int i = 0; i < newFollows.size(); i++) {
                 if (newFollows.get(i).equals(id)) {
@@ -157,7 +172,7 @@ public class ViewProfileActivity extends AppCompatActivity implements View.OnCli
             newFollowers = String.valueOf(Integer.parseInt(selectedProfile.getFollowers()) - 1);
             loginRegisterManager.follow(newFollows, id, newFollowers);
             tvFollowers.setText(String.valueOf(Integer.parseInt(tvFollowers.getText().toString()) - 1));
-            btnEdit.setText("FOLLOW");
+            btnFollowUpdate.setText("FOLLOW");
         }
 
     }
