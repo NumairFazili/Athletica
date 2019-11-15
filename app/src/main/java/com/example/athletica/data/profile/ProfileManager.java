@@ -26,30 +26,28 @@ public class ProfileManager {
         this.context = context;
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
+        loginRegisterManager = new LoginRegisterManager();
     }
 
 
-    public ProfileManager(Context context,UserProfile currentProfile) {
+    public ProfileManager(Context context, UserProfile currentProfile) {
         this.context = context;
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        this.currentProfile=currentProfile;
-        loginRegisterManager=new LoginRegisterManager();
-
-
+        this.currentProfile = currentProfile;
+        loginRegisterManager = new LoginRegisterManager();
     }
-
 
     public String getCurrentUser() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         return currentUser.getUid();
     }
 
-    public static int calculateAge(String dob) {
+    public static int calculateAge(UserProfile user) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar birthday = Calendar.getInstance();
         try {
-            birthday.setTime(simpleDateFormat.parse(dob));
+            birthday.setTime(simpleDateFormat.parse(user.getBirthdate()));
         } catch (ParseException e) {
             e.printStackTrace();
             return 0;
@@ -58,51 +56,42 @@ public class ProfileManager {
         int age = now.get(Calendar.YEAR) - birthday.get(Calendar.YEAR);
         if (birthday.get(Calendar.MONTH) > now.get(Calendar.MONTH))
             age--;
-        else if (birthday.get(Calendar.MONTH) == now.get(Calendar.MONTH))
-        {
+        else if (birthday.get(Calendar.MONTH) == now.get(Calendar.MONTH)) {
             if (birthday.get(Calendar.DAY_OF_MONTH) > now.get(Calendar.DAY_OF_MONTH))
                 age--;
         }
         return age;
     }
 
+    public String follow(UserProfile selectedProfile, UserProfile currentProfile, String followers) {
+        ArrayList<String> newFollows = currentProfile.getFollows();
+        String id = selectedProfile.getId();
+        String newFollowers;
 
+        newFollows.add(selectedProfile.getId());
+        if (selectedProfile.getFollowers() == null) {
+            newFollowers = "1";
+        } else {
+            newFollowers = String.valueOf(Integer.parseInt(followers) + 1);
+        }
 
-//
-//    public String follow(View view,UserProfile selectedProfile,String text) {
-//        ArrayList<String> newFollows = currentProfile.getFollows();
-//        String id = selectedProfile.getId();
-//        String newFollowers;
-//
-//        if (text.equals("FOLLOW")) {
-//            newFollows.add(selectedProfile.getId());
-//            if (selectedProfile.getFollowers() != null) {
-//                newFollowers = String.valueOf(Integer.parseInt(selectedProfile.getFollowers()) + 1);
-//            } else {
-//                newFollowers = "1";
-//            }
-//
-//            loginRegisterManager.follow(newFollows, id, newFollowers);
-//            //tvFollowers.setText(String.valueOf(Integer.parseInt(tvFollowers.getText().toString()) + 1));
-//            return "UNFOLLOW";
-//        } else {
-//            for (int i = 0; i < newFollows.size(); i++) {
-//                if (newFollows.get(i).equals(id)) {
-//                    newFollows.remove(i);
-//                    break;
-//                }
-//            }
-//            newFollowers = String.valueOf(Integer.parseInt(selectedProfile.getFollowers()) - 1);
-//            loginRegisterManager.follow(newFollows, id, newFollowers);
-//            //tvFollowers.setText(String.valueOf(Integer.parseInt(tvFollowers.getText().toString()) - 1));
-//            //btnFollowUpdate.setText("FOLLOW");
-//            return "FOLLOW";
-//        }
-//
-//    }
+        loginRegisterManager.follow(newFollows, id, newFollowers);
+        return String.valueOf(Integer.parseInt(followers) + 1);
+    }
 
+    public String unfollow(UserProfile selectedProfile, UserProfile currentProfile, String followers) {
+        ArrayList<String> newFollows = currentProfile.getFollows();
+        String id = selectedProfile.getId();
+        String newFollowers;
 
-
-
-
+        for (int i = 0; i < newFollows.size(); i++) {
+            if (newFollows.get(i).equals(id)) {
+                newFollows.remove(i);
+                break;
+            }
+        }
+        newFollowers = String.valueOf(Integer.parseInt(followers) - 1);
+        loginRegisterManager.follow(newFollows, id, newFollowers);
+        return String.valueOf(Integer.parseInt(followers) - 1);
+    }
 }
