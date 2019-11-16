@@ -9,16 +9,15 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-/*
-This class is used for Retrieving the entities based on search input using Datamanager
+
+/**
+ * This class is used for Retrieving the entities based on search input using DataManager
  */
 
-
-
 public class SearchManager {
-    public DataManager dataManager;
-    FilterManager filterManager;
-    Context context;
+    private DataManager dataManager;
+    private FilterManager filterManager;
+    private Context context;
     private ArrayList<String> facilityName = new ArrayList<>(); // names of all the facilities are stored in this list
     private ArrayList<String> facilityIds = new ArrayList<>();
     private ArrayList<String> eventsName = new ArrayList<String>();// unique indexes of all the records are stored in this list
@@ -38,6 +37,11 @@ public class SearchManager {
     }
 
 
+    /**
+     *
+     * @param searchResultActivity
+     * Fetches  Facilities matching given input from DataManager and displays them in SearchResultActivity Class
+     */
 
     public void getFacilities(final SearchResultActivity searchResultActivity) {
         facilityMap = dataManager.readDataAll(context, value);
@@ -50,6 +54,11 @@ public class SearchManager {
         searchResultActivity.init_ListView(facilityName, facilityIds, 0);
     }
 
+    /**
+     *
+     * @param viewProfileActivity
+     * Fetches Events matching created by a particular user from DataManager and displays them in ViewProfile Class
+     */
 
     public void getEvents(final ViewProfileActivity viewProfileActivity, String userId) {
         dataManager.getEventKeys(new DataManager.DataStatus() {
@@ -78,6 +87,13 @@ public class SearchManager {
         }, value);
     }
 
+
+    /**
+     *
+     * @param searchResultActivity
+     * Fetches  Events matching given input from DataManager and displays them in SearchResultActivity Class
+     */
+
     public void getEvents(final SearchResultActivity searchResultActivity) {
         dataManager.getEventKeys(new DataManager.DataStatus() {
             @Override
@@ -94,6 +110,12 @@ public class SearchManager {
             }
         }, value);
     }
+
+    /**
+     *
+     * @param searchResultActivity
+     * Fetches  Users matching given input from DataManager and displays them in SearchResultActivity Class
+     */
 
 
     public void getUsers(final SearchResultActivity searchResultActivity) {

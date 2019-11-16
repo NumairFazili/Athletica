@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.athletica.Controller.FilterManager;
 import com.example.athletica.R;
 import com.example.athletica.Controller.DisplayController;
 import com.example.athletica.Model.Facility;
@@ -25,6 +26,7 @@ public class DisplayAll extends AppCompatActivity {
     private int state;
 
     private DataManager dataManager;
+    FilterManager filterManager;
     private DisplayController displayController;
     private ArrayList<Facility> facilities, sortedFacilties;
     private ImageButton btnSort;
@@ -41,6 +43,7 @@ public class DisplayAll extends AppCompatActivity {
         state = Integer.parseInt(getIntent().getStringExtra("state"));
         dataManager = new DataManager();
         displayController = new DisplayController(this, state);
+        filterManager=new FilterManager();
         btnSort = findViewById(R.id.action_sort);
         Title=findViewById(R.id.DisplayAllTitle);
 
@@ -51,7 +54,7 @@ public class DisplayAll extends AppCompatActivity {
         else{Title.setText("Users"); displayController.getUsers(this);}
 
 
-        sortedFacilties = displayController.sortFacilityByName();
+        sortedFacilties = filterManager.sortFacilityByName(dataManager.readDataAll(this, ""));
         ArrayList<String> sortedFFacilityNames = new ArrayList<>();
         ArrayList<String> sortedFacilityIndex = new ArrayList<>();
 

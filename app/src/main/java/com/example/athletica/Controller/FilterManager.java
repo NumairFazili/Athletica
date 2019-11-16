@@ -1,5 +1,11 @@
 package com.example.athletica.Controller;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import com.example.athletica.Model.Facility;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +16,11 @@ import java.util.Map;
 
 public class FilterManager {
 
+
+    /**
+     * @param Emap
+     * Check if event has passed based on current Date
+     */
     public void endEventCheck(ArrayList<Map> Emap) {
         SimpleDateFormat dfParse = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date mapDate = null;
@@ -31,6 +42,11 @@ public class FilterManager {
         for (Map<String, String> map : remove)
             Emap.remove(map);
     }
+
+    /**
+     * @param Emap
+     * Returns Sorted Events
+     */
 
     public void sortEvents(ArrayList<Map> Emap) {
         Collections.sort(Emap, new Comparator<Map>() {
@@ -54,6 +70,13 @@ public class FilterManager {
         });
     }
 
+    /**
+     *
+     * @param Emap
+     * @param truncate
+     * Returns Events List of desired size
+     */
+
     public void truncateEvents(ArrayList<Map> Emap, int truncate) {
 
         if (Emap.size() < truncate)
@@ -62,6 +85,17 @@ public class FilterManager {
             Emap.remove(Emap.size() - 1);
 
 
+    }
+
+    /**
+     *
+     * @param facilities
+     * @return facilityList in Sorted Order
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Facility> sortFacilityByName(ArrayList<Facility> facilities) {
+        facilities.sort(Comparator.comparing(Facility::getName));
+        return facilities;
     }
 
 }

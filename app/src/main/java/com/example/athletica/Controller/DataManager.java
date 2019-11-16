@@ -26,9 +26,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-/*
-This class deals with handling data (read or write) to firebase and .Csv
+/**
+ * This class deals with handling data (read or write) to firebase and .Csv
  */
+
+
 
 public class DataManager {
     private FirebaseDatabase firebaseDatabase;
@@ -158,6 +160,13 @@ public class DataManager {
         });
     }
 
+    /**
+     *
+     * @param context
+     * @param str
+     * @return ArrayList of all facilities matching the given String
+     */
+
     public ArrayList<Facility> readDataAll(Context context, String str) {
         ArrayList<Facility> dataList = new ArrayList<>();
         InputStream is = context.getResources().openRawResource(R.raw.sports);
@@ -183,6 +192,13 @@ public class DataManager {
         return dataList;
     }
 
+
+    /**
+     *
+     * @param context
+     * @param index
+     * @returns Facility corresponding to the given index
+     */
     public Facility readIndex(Context context, String index) {
         InputStream is = context.getResources().openRawResource(R.raw.sports);
         BufferedReader reader = new BufferedReader(

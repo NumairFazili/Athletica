@@ -14,10 +14,9 @@ import java.util.Map;
 
 
 
-/*
-This class is used for Displaying All Entities in sorted or un sorted order
+/**
+ * This class is used for Displaying All Entities in sorted or un sorted order
  */
-
 
 public class DisplayController {
     Context context;
@@ -45,6 +44,12 @@ public class DisplayController {
     private int state;
 
 
+    /**
+     *
+     * @param context
+     * @param state (This parameter corresponds to different entities 0 for facility 1 for event and any other value corresponds to user
+     */
+
     public DisplayController(Context context, int state) {
         this.context = context;
         this.state = state;
@@ -52,6 +57,12 @@ public class DisplayController {
         profileManager = new ProfileManager(context);
         filterManager = new FilterManager();
     }
+
+    /**
+     *
+     * @param displayAll
+     * Fetches all facilities from DataManager and displays them in DisplayAll Class
+     */
 
     public void getFacilities(final DisplayAll displayAll) {
         facilityMap = dataManager.readDataAll(context, "");
@@ -63,6 +74,12 @@ public class DisplayController {
         }
         displayAll.initRecyclerView(state, facilities, index);
     }
+
+    /**
+     *
+     * @param displayAll
+     * Fetches all Events from DataManager and displays them in DisplayAll Class
+     */
 
 
     public void getEvents(final DisplayAll displayAll) {
@@ -82,6 +99,12 @@ public class DisplayController {
             }
         }, "");
     }
+
+    /**
+     *
+     * @param homeActivity
+     * Fetches all facilities from DataManager and displays them in HomeActivity Class
+     */
 
 
     public void getEvents(final HomeActivity homeActivity) {
@@ -106,6 +129,12 @@ public class DisplayController {
     }
 
 
+    /**
+     *
+     * @param displayAll
+     * Fetches all Users from DataManager and displays them in DisplayAll Class
+     */
+
     public void getUsers(final DisplayAll displayAll) {
         dataManager.getAllUsers(new DataManager.DataStatus() {
             @Override
@@ -123,12 +152,13 @@ public class DisplayController {
         }, "");
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public ArrayList<Facility> sortFacilityByName() {
-        ArrayList<Facility> facilities = dataManager.readDataAll(context, "");
-        facilities.sort(Comparator.comparing(Facility::getName));
-        return facilities;
-    }
+
+    /**
+     *
+     * @param displayAll
+     * Fetches all Events from DataManager in SortedOrder and displays them in DisplayAll Class
+     */
+
 
 
     public void getSortedEvents(final DisplayAll displayAll) {
@@ -167,6 +197,12 @@ public class DisplayController {
         }
         displayAll.initRecyclerView(1, eventsName, eventIds);
     }
+
+    /**
+     *
+     * @param displayAll
+     * Fetches all Users from DataManager in SortedOrder and displays them in DisplayAll Class
+     */
 
     public void getSortedUsers(final DisplayAll displayAll) {
         dataManager.getAllUsers(new DataManager.DataStatus() {
