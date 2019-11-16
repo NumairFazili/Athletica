@@ -16,25 +16,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.facility.CommentAdapter"></activity>
-        <activity android:name=".ui.settings.ChangePasswordActivity" />
-        <activity android:name=".ui.maps.MapsActivity" />
-        <activity android:name=".ui.search.DisplayAll" />
-        <activity android:name=".ui.event.ViewEventActivity" />
-        <activity android:name=".ui.login.LoginRegisterActivity">
+        <activity android:name=".View.facility.CommentAdapter"></activity>
+        <activity android:name=".View.settings.ChangePasswordActivity" />
+        <activity android:name=".View.maps.MapsActivity" />
+        <activity android:name=".View.search.DisplayAll" />
+        <activity android:name=".View.event.ViewEventActivity" />
+        <activity android:name=".View.login.LoginRegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.profile.CreateProfileActivity" />
-        <activity android:name=".ui.facility.ViewFacilityActivity" />
-        <activity android:name=".ui.event.CreateEventActivity" />
-        <activity android:name=".ui.search.SearchResultActivity"></activity>
-        <activity android:name=".ui.settings.SettingsActivity" />
-        <activity android:name=".ui.profile.ViewProfileActivity" />
-        <activity android:name=".ui.home.HomeActivity" />
+        <activity android:name=".View.profile.CreateProfileActivity" />
+        <activity android:name=".View.facility.ViewFacilityActivity" />
+        <activity android:name=".View.event.CreateEventActivity" />
+        <activity android:name=".View.search.SearchResultActivity"></activity>
+        <activity android:name=".View.settings.SettingsActivity" />
+        <activity android:name=".View.profile.ViewProfileActivity" />
+        <activity android:name=".View.home.HomeActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
