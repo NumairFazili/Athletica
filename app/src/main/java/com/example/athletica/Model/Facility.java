@@ -27,6 +27,17 @@ public class Facility {
     private double lat, lng;
 
 
+    /**
+     *
+     * @param index
+     * @param lng
+     * @param lat
+     * @param name
+     * @param facilities
+     * @param zip
+     * @param website
+     */
+
     public Facility(String index, String lng, String lat, String name, String facilities, String zip, String website) {
 
 

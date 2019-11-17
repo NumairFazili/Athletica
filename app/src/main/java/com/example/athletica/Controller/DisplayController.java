@@ -1,15 +1,11 @@
 package com.example.athletica.Controller;
 
 import android.content.Context;
-import android.os.Build;
-import androidx.annotation.RequiresApi;
-
 import com.example.athletica.Model.User;
 import com.example.athletica.Model.Facility;
 import com.example.athletica.View.home.HomeActivity;
 import com.example.athletica.View.search.DisplayAll;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Map;
 
 

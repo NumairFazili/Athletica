@@ -122,7 +122,7 @@ public class EventManager {
      * @param price
      * @param startDate
      * @param endDate
-     * @return
+     * @return True if event successfully saved
      */
     public boolean saveEvent(String name, String discipline, String description, String location, int maxParticipants, double price, String startDate, String endDate) {
         // Retrieve the ket for event_info

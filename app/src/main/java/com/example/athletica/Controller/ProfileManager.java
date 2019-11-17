@@ -27,19 +27,16 @@ public class ProfileManager {
         loginRegisterManager = new LoginRegisterManager();
     }
 
-
-    public ProfileManager(Context context, UserProfile currentProfile) {
-        this.context = context;
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        this.currentProfile = currentProfile;
-        loginRegisterManager = new LoginRegisterManager();
-    }
-
     public String getCurrentUser() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         return currentUser.getUid();
     }
+
+    /**
+     *
+     * @param user
+     * @return age of user
+     */
 
     public static int calculateAge(UserProfile user) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -61,6 +58,14 @@ public class ProfileManager {
         return age;
     }
 
+    /**
+     *
+     * @param selectedProfile
+     * @param currentProfile
+     * @param followers
+     * @return  String with updated value of followers
+     */
+
     public String follow(UserProfile selectedProfile, UserProfile currentProfile, String followers) {
         ArrayList<String> newFollows = currentProfile.getFollows();
         String id = selectedProfile.getId();
@@ -76,6 +81,16 @@ public class ProfileManager {
         loginRegisterManager.follow(newFollows, id, newFollowers);
         return String.valueOf(Integer.parseInt(followers) + 1);
     }
+
+
+    /**
+     *
+     * @param selectedProfile
+     * @param currentProfile
+     * @param followers
+     * @return String with updated value of followers
+     */
+
 
     public String unfollow(UserProfile selectedProfile, UserProfile currentProfile, String followers) {
         ArrayList<String> newFollows = currentProfile.getFollows();

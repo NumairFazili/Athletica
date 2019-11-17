@@ -6,9 +6,14 @@ public class Comments {
     private String userName;
     private String commentContent;
 
-    public Comments() {
 
-    }
+    /**
+     *
+     * @param userID
+     * @param userName
+     * @param commentContent
+     */
+
     public Comments(String userID, String userName, String commentContent) {
         this.userID = userID;
         this.userName = userName;
