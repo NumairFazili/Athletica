@@ -2,6 +2,10 @@ package com.example.athletica.Model;
 
 import java.util.ArrayList;
 
+/**
+ * Entity class to represent UserProfile with getters and setters
+ * @author Kamil Rogoda
+ */
 public class UserProfile {
 
     private String id;

@@ -16,6 +16,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Manager for Event class
+ */
 public class EventManager {
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
@@ -29,6 +32,18 @@ public class EventManager {
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
+    /**
+     * Validate details before creating event
+     * @param name name of event
+     * @param discipline discipline of event
+     * @param description description of event
+     * @param location location of event
+     * @param maxParticipants maximum number of participants
+     * @param price price of event
+     * @param dateStart date when event starts
+     * @param dateEnd date when event ends
+     * @return true if details are valid, false else
+     */
     public boolean validateDetails(String name, String discipline, String description, String location, int maxParticipants, double price, String dateStart, String dateEnd) {
         Date currentDate = new Date();
         Date startDate = null;
@@ -97,7 +112,18 @@ public class EventManager {
     }
 
 
-    // Creates a new event and save into the dartabase
+    /**
+     * Save event with given details to Firebase
+     * @param name
+     * @param discipline
+     * @param description
+     * @param location
+     * @param maxParticipants
+     * @param price
+     * @param startDate
+     * @param endDate
+     * @return
+     */
     public boolean saveEvent(String name, String discipline, String description, String location, int maxParticipants, double price, String startDate, String endDate) {
         // Retrieve the ket for event_info
         DatabaseReference databaseReference = firebaseDatabase.getReference().child("events_info");
@@ -112,6 +138,12 @@ public class EventManager {
         return true;
     }
 
+    /**
+     * Join user to event
+     * @param event event to be joined
+     * @param user user to join
+     * @return true if success, false else
+     */
     public boolean joinEvent(Event event, User user) {
         if (event.canBeJoined() && user.canJoin(event.getId())) {
             event.addNewParticipant();
@@ -123,6 +155,12 @@ public class EventManager {
         }
     }
 
+    /**
+     * Withdraw user from event
+     * @param event event to withdraw from
+     * @param user user to withdraw
+     * @return true if success, false else
+     */
     public boolean withdrawFromEvent(Event event, User user){
        if(!user.canJoin(event.getId())) {
             event.removeParticipant();

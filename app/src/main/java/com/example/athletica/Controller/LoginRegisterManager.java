@@ -30,6 +30,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Manager to coordinate login, register and user profile
+ */
 public class LoginRegisterManager {
 
     public static User loggedUser;
@@ -50,6 +53,9 @@ public class LoginRegisterManager {
         progressDialog = new ProgressDialog(context);
     }
 
+    /**
+     * Set currently logged user
+     */
     public static void setLoggedUser() {
         final DataManager dataManager = new DataManager();
         dataManager.getUser(new DataManager.DataStatus() {
@@ -66,7 +72,12 @@ public class LoginRegisterManager {
         }, FirebaseAuth.getInstance().getCurrentUser().getUid());
     }
 
-
+    /**
+     * Register user with given details
+     * @param email
+     * @param password
+     * @param confirmPassword
+     */
     public void register(String email, final String password, final String confirmPassword) {
         if (password.equals(confirmPassword)) {
             progressDialog.setMessage("Registering account...");
@@ -95,6 +106,11 @@ public class LoginRegisterManager {
         }
     }
 
+    /**
+     * Login user with given details
+     * @param email
+     * @param password
+     */
     public void login(String email, String password) {
         progressDialog.setMessage("Logging in...");
         progressDialog.show();
@@ -119,6 +135,9 @@ public class LoginRegisterManager {
                 });
     }
 
+    /**
+     * Log out user
+     */
     public void logOut() {
         FirebaseAuth.getInstance().signOut();
         loggedUser = null;
@@ -127,6 +146,10 @@ public class LoginRegisterManager {
         context.startActivity(intent);
     }
 
+    /**
+     * Check if user is logged in
+     * @return
+     */
     public boolean isLoggedIn() {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser == null) {
@@ -138,6 +161,12 @@ public class LoginRegisterManager {
         }
     }
 
+    /**
+     * Change password of logged user
+     * @param password new password
+     * @param confirmPassword confirm new password
+     * @param oldPassword current password
+     */
     public void changePassword(final String password, final String confirmPassword, final String oldPassword) {
         if (password.equals(confirmPassword)) {
             final FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -176,6 +205,17 @@ public class LoginRegisterManager {
         }
     }
 
+    /**
+     * Save user profile with given details to Firebase
+     * @param userId
+     * @param name
+     * @param birthdate
+     * @param sex
+     * @param description
+     * @param sports
+     * @param follows
+     * @param followers
+     */
     public void saveUserProfile(String userId, String name, String birthdate, String sex, String description, ArrayList<String> sports, ArrayList<String> follows, String followers) {
 
         if (sports.size() < 1) {
@@ -197,6 +237,17 @@ public class LoginRegisterManager {
         setLoggedUser();
     }
 
+    /**
+     * Update user profile with given details in Firebase
+     * @param userId
+     * @param name
+     * @param birthdate
+     * @param sex
+     * @param description
+     * @param sports
+     * @param follows
+     * @param followers
+     */
     public void updateUserProfile(String userId, String name, String birthdate, String sex, String description, ArrayList<String> sports, ArrayList<String> follows, String followers) {
         if (sports.size() < 1) {
             sports.add("N/A");
@@ -210,6 +261,12 @@ public class LoginRegisterManager {
         databaseReference.child(userId).setValue(userProfile);
     }
 
+    /**
+     * Follow user
+     * @param follows follows of logged user
+     * @param userId user to be folowed
+     * @param followers followers of user to be followed
+     */
     public void follow(ArrayList<String> follows, String userId, String followers) {
         System.out.println("FOLLOW METHOD CALLED");
         DatabaseReference databaseReference = firebaseDatabase.getReference().child("users_info");
@@ -217,6 +274,12 @@ public class LoginRegisterManager {
         databaseReference.child(loggedUser.getId()).child("follows").setValue(follows);
     }
 
+    /**
+     * Validate details of login or register
+     * @param email email to be validated
+     * @param password password to be validated
+     * @return true if input is valid, false else
+     */
     public boolean validateLoginRegisterInput(String email, String password) {
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(context, "E-mail cannot be empty!", Toast.LENGTH_SHORT).show();
@@ -241,6 +304,13 @@ public class LoginRegisterManager {
         return true;
     }
 
+    /**
+     * Validate profile details
+     * @param current
+     * @param birthdayDate
+     * @param name
+     * @return true is input is valid, false else
+     */
     public boolean validateProfileDetails(Date current, Date birthdayDate, String name) {
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(context, "Name is required!", Toast.LENGTH_SHORT).show();

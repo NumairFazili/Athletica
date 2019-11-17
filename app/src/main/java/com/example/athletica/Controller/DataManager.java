@@ -41,6 +41,11 @@ public class DataManager {
         firebaseDatabase = FirebaseDatabase.getInstance();
     }
 
+    /**
+     * Retrieve user object from Firebase
+     * @param dataStatus
+     * @param id id of user to be retrieved
+     */
     public void getUser(final DataStatus dataStatus, final String id) {
         DatabaseReference databaseReference = firebaseDatabase.getReference().child("users_info").child(id);
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -58,6 +63,11 @@ public class DataManager {
         });
     }
 
+    /**
+     * Retrieve user profile with given id from Firebase
+     * @param dataStatus
+     * @param profileId profile id to be retrieved
+     */
     public void getProfileByKey(final DataStatus dataStatus, final String profileId) {
         DatabaseReference databaseReference = firebaseDatabase.getReference().child("users_info").child(profileId);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -74,6 +84,11 @@ public class DataManager {
         });
     }
 
+    /**
+     * Retrieve list of event keys that user joined from Firebase
+     * @param dataStatus
+     * @param id id of user
+     */
     public void getUserEvents(final DataStatus dataStatus, final String id) {
         DatabaseReference databaseReference = firebaseDatabase.getReference().child("users_events").child(id);
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -93,6 +108,11 @@ public class DataManager {
         });
     }
 
+    /**
+     * Retireve all event keys from Firebase when name match given string
+     * @param dataStatus
+     * @param str string for event's name to match
+     */
     public void getEventKeys(final DataStatus dataStatus, final String str) {
         DatabaseReference databaseReference = firebaseDatabase.getReference().child("events_info");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -120,6 +140,11 @@ public class DataManager {
         });
     }
 
+    /**
+     * Retrieve event with given key from Firebase
+     * @param dataStatus
+     * @param eventId event of id to be retrieved
+     */
     public void getEventByKey(final DataStatus dataStatus, final String eventId) {
         DatabaseReference databaseReference = firebaseDatabase.getReference().child("events_info").child(eventId);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -136,6 +161,11 @@ public class DataManager {
         });
     }
 
+    /**
+     * Retrieves id's of all users from Firebase when name match given string
+     * @param dataStatus
+     * @param query string to be matched
+     */
     public void getAllUsers(final DataStatus dataStatus, final String query) {
         DatabaseReference databaseReference = firebaseDatabase.getReference().child("users_info");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {

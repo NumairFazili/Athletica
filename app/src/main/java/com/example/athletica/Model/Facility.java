@@ -12,7 +12,7 @@ import java.util.Locale;
 
 
 
-/*
+/**
 Entity Class corresponding to Facilities. Contains respective Getters and Setters;
  */
 
